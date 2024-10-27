@@ -33,21 +33,34 @@ if __name__ == '__main__':
     st.set_page_config(
     page_title="GA Dashboard",
     page_icon="📊",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    layout="centered",
     )
-    st.sidebar.title("Navigation")
+
+    st.markdown(
+                """
+                <style>
+                .stContainer > div {
+                    width: 15%;
+                    height: 15%;
+                    margin: 1%;
+                },
+                section.main > div {max-width: 40rem; max-height: 40rem; top-margin: 1rem; left-margin: 1rem;}
+                </style>
+                """,
+                unsafe_allow_html=True
+            )
+    col1, col2, col3 = st.columns(3)
+    button_container = col2.container(border=True)
     
-    if st.sidebar.button("Publish JSON"):
+    if button_container.button("Collect data", use_container_width=True):
         json_data = json.dumps({"Command": "Start"})
         MQTTPub.PushData("ece631/finalproject/status/alert", json_data)
-        st.success("JSON data published")
         
-    if st.sidebar.button("Stop client"):
-        should_run = False
-        sys.exit()
+    if button_container.button("Stop collection", use_container_width=True):
+        json_data = json.dumps({"Command": "Stop"})
+        MQTTPub.PushData("ece631/finalproject/status/alert", json_data)
         
-    plot_placeholder = st.empty()
+    plot_placeholder = col2.empty()
 
     try:    
         while should_run:
@@ -67,7 +80,7 @@ if __name__ == '__main__':
                     fig, ax = plt.subplots(figsize=(6, 5), dpi=300)
                     ax.scatter(x_data, y_data)
                     
-                    with plot_placeholder.container():
+                    with plot_placeholder.container(border=True):
                         st.pyplot(fig)     
             sleep(0.2)   
     
