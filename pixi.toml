@@ -1,0 +1,21 @@
+[project]
+authors = ["Benjamin Vail <benv86@outlook.com>"]
+channels = ["conda-forge"]
+description = "Add a short description here"
+name = "GreaterApp"
+platforms = ["win-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = "==3.11.10"
+streamlit = "==1.39.0"
+plotly = ">=5.24.1,<6"
+paho-mqtt = ">=1.6.1,<2"
+folium = ">=0.18.0,<0.19"
+pykml = ">=0.2.0,<0.3"
+streamlit-folium = ">=0.23.1,<0.24"
+fastkml = ">=0.12,<0.13"
+setuptools = ">=75.3.0,<76"
+geojson = ">=3.1.0,<4"

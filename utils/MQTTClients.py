@@ -1,9 +1,6 @@
-#! /usr/bin/env python3
-#
-# Jay Herrmann
-# ECE631 Spring 2016
-#MQTT Clients for Publish and Subscript
-#
+#! /home/greaterapp/GAVENV/bin/python3
+
+
 import paho.mqtt.client as mqtt
 import time
 import types
@@ -47,6 +44,7 @@ class MQTTPusher(object):
 
 class MQTTListener(object):
 	AMessages = []
+	ASenders = []
 	def __init__(self,Host:str,Port:int,ListenTopic:str=None,**Info):
 		# The callback for when the client receives a CONNACK response from the server.
 		def on_connect(client, userdata,flags, rc):
