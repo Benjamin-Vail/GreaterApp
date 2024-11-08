@@ -4,7 +4,7 @@ import json
 import random
 
 # MQTT Broker details
-broker_address = "192.168.0.107"
+broker_address = "192.168.0.1"
 topic = "ga/sensors/values"
 
 # Latitude and longitude for the center point on Knox Lane, Manhattan, KS
@@ -44,8 +44,8 @@ try:
         # Combine sensor values and GPS coordinates into one JSON payload
         payload = {
             "sensors": sensor_values,
-            "latitude": lat,
-            "longitude": lon
+            "lat": lat,
+            "long": lon
         }
         
         # Publish the payload as a JSON string

@@ -8,7 +8,7 @@ import time
 from utils.MQTTClients import MQTTListener, MQTTPusher  # Import the MQTTListener and MQTTPusher classes
 
 # Enter the broker address
-broker_address = "192.168.0.107"
+broker_address = "192.168.0.1"
 
 # Initialize a dictionary to store the latest 10 readings for each sensor
 sensor_data = {f'sensor{i}': deque(maxlen=10) for i in range(1, 7)}
@@ -28,10 +28,10 @@ st.title("Real-time Sensor Data and GPS")
 st.write("Listening for sensor data and GPS coordinates...")
 
 def start_command():
-    mqtt_pusher.PushData("ga/sensors/control", json.dumps({"Command": "start"}))
+    mqtt_pusher.PushData("ga/sensors/control", json.dumps({"Start_Stop": "Start"}))
 
 def stop_command():
-    mqtt_pusher.PushData("ga/sensors/control", json.dumps({"Command": "stop"}))
+    mqtt_pusher.PushData("ga/sensors/control", json.dumps({"Start_Stop": "Stop"}))
 
 cont = st.container(border=True)
 with cont:
@@ -89,20 +89,26 @@ while True:
         msg = mqtt_listener.Messages.pop()
         payload = json.loads(msg.payload)
         st.session_state.last_message_received = current_time  # Update last message received time
+        try:
+            sensor_values = payload['sensors']
+            latitude = payload['lat']
+            longitude = payload['long']
 
-        sensor_values = payload['sensors']
-        latitude = payload['latitude']
-        longitude = payload['longitude']
 
-        for sensor_id, value in sensor_values.items():
-            sensor_data[sensor_id].append(value)
+            for sensor_id, value in sensor_values.items():
+                sensor_data[sensor_id].append(value)
 
-        gps_coords.append((latitude, longitude))
+            gps_coords.append((latitude, longitude))
 
-        data = {sensor: list(values) for sensor, values in sensor_data.items()}
-        df = pd.DataFrame(data)
-        plot_line_chart(df)
-        plot_gps_map(gps_coords)
+            data = {sensor: list(values) for sensor, values in sensor_data.items()}
+            df = pd.DataFrame(data)
+            plot_line_chart(df)
+            plot_gps_map(gps_coords)
+
+        except KeyError as ke:
+            print(ke)
+        
+
 
     # Check if the sensor data has stopped
     if current_time - st.session_state.last_message_received > 5:  # 10 seconds threshold
