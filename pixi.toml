@@ -3,7 +3,7 @@ authors = ["Benjamin Vail <benv86@outlook.com>"]
 channels = ["conda-forge"]
 description = "Add a short description here"
 name = "GreaterApp"
-platforms = ["win-64"]
+platforms = ["win-64", "linux-64", "linux-aarch64"]
 version = "0.1.0"
 
 [tasks]
