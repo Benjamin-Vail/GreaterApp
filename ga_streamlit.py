@@ -91,8 +91,8 @@ while True:
         st.session_state.last_message_received = current_time  # Update last message received time
         try:
             sensor_values = payload['sensors']
-            latitude = payload['lat']
-            longitude = payload['long']
+            latitude = payload['Lat']
+            longitude = payload['Long']
 
 
             for sensor_id, value in sensor_values.items():

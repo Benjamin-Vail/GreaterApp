@@ -44,8 +44,8 @@ try:
         # Combine sensor values and GPS coordinates into one JSON payload
         payload = {
             "sensors": sensor_values,
-            "lat": lat,
-            "long": lon
+            "Lat": lat,
+            "Long": lon
         }
         
         # Publish the payload as a JSON string
